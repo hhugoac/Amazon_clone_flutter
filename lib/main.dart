@@ -1,5 +1,6 @@
 import 'package:ecommerce_clone/constants/global_variables.dart';
 import 'package:ecommerce_clone/feature/auth/screen/auth_screen.dart';
+import 'package:ecommerce_clone/home/screen/home_screen.dart';
 import 'package:ecommerce_clone/providers/user_provider.dart';
 import 'package:ecommerce_clone/router.dart';
 import 'package:ecommerce_clone/services/auth_service.dart';
@@ -22,10 +23,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final AuthService authService = AuthService();
+  final authService = AuthService();
+
   @override
   void initState() {
     super.initState();
+    authService.getUserData(context);
   }
 
   // This widget is the root of your application.
@@ -50,7 +53,9 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text("Hi this is me"),
         ),
-        body: const AuthScreen(),
+        body: Provider.of<UserProvider>(context).user.token.isNotEmpty
+            ? const HomeScreen()
+            : const AuthScreen(),
       ),
     );
   }
