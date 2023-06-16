@@ -1,3 +1,4 @@
+import 'package:ecommerce_clone/common/widgets/bottom_bar.dart';
 import 'package:ecommerce_clone/constants/global_variables.dart';
 import 'package:ecommerce_clone/feature/auth/screen/auth_screen.dart';
 import 'package:ecommerce_clone/home/screen/home_screen.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text("Hi this is me"),
         ),
         body: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? const HomeScreen()
+            ? const BottomBar()
             : const AuthScreen(),
       ),
     );
