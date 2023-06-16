@@ -1,4 +1,6 @@
 import 'package:ecommerce_clone/constants/global_variables.dart';
+import 'package:ecommerce_clone/feature/account/screen/account_screen.dart';
+import 'package:ecommerce_clone/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
@@ -14,19 +16,31 @@ class _BottomBarState extends State<BottomBar> {
   double bottomNavigationBarWidth = 42;
   double bottomNavigationBarBorderWidth = 5;
 
-  void updateState() {
-    setState(() {});
+  List<Widget> pages = [
+    const HomeScreen(),
+    const Center(
+      child: Text('Account Page'),
+    ),
+    const AccountScreen()
+  ];
+
+  void updateState(int page) {
+    setState(() {
+      _page = page;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _page,
         selectedItemColor: GlobalVariables.selectedNavBarColor,
         unselectedItemColor: GlobalVariables.unselectedNavBarColor,
         backgroundColor: GlobalVariables.backgroundColor,
         iconSize: 28,
+        onTap: updateState,
         items: [
           //Home
           BottomNavigationBarItem(
