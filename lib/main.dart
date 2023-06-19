@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
             title: const Text("Hi this is me"),
           ),
           body: Provider.of<UserProvider>(context).user.token.isNotEmpty
-              ? Provider.of<UserProvider>(context).user.type == 'user'
+              ? Provider.of<UserProvider>(context).user.type != 'user'
                   ? const BottomBar()
                   : const AdminScreen()
               : const AuthScreen()),
