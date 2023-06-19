@@ -1,6 +1,6 @@
 import 'package:ecommerce_clone/constants/global_variables.dart';
 import 'package:ecommerce_clone/feature/account/screen/account_screen.dart';
-import 'package:ecommerce_clone/home/screen/home_screen.dart';
+import 'package:ecommerce_clone/feature/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {

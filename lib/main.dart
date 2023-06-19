@@ -1,7 +1,8 @@
 import 'package:ecommerce_clone/common/widgets/bottom_bar.dart';
 import 'package:ecommerce_clone/constants/global_variables.dart';
+import 'package:ecommerce_clone/feature/admin/screen/admin_screen.dart';
 import 'package:ecommerce_clone/feature/auth/screen/auth_screen.dart';
-import 'package:ecommerce_clone/home/screen/home_screen.dart';
+import 'package:ecommerce_clone/feature/home/screen/home_screen.dart';
 import 'package:ecommerce_clone/providers/user_provider.dart';
 import 'package:ecommerce_clone/router.dart';
 import 'package:ecommerce_clone/services/auth_service.dart';
@@ -51,13 +52,14 @@ class _MyAppState extends State<MyApp> {
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Hi this is me"),
-        ),
-        body: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? const BottomBar()
-            : const AuthScreen(),
-      ),
+          appBar: AppBar(
+            title: const Text("Hi this is me"),
+          ),
+          body: Provider.of<UserProvider>(context).user.token.isNotEmpty
+              ? Provider.of<UserProvider>(context).user.type == 'user'
+                  ? const BottomBar()
+                  : const AdminScreen()
+              : const AuthScreen()),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:ecommerce_clone/common/widgets/bottom_bar.dart';
 import 'package:ecommerce_clone/feature/auth/screen/auth_screen.dart';
-import 'package:ecommerce_clone/home/screen/home_screen.dart';
+import 'package:ecommerce_clone/feature/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {

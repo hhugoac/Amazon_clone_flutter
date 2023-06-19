@@ -4,7 +4,7 @@ import 'package:ecommerce_clone/common/widgets/bottom_bar.dart';
 import 'package:ecommerce_clone/constants/error_handling.dart';
 import 'package:ecommerce_clone/constants/global_variables.dart';
 import 'package:ecommerce_clone/constants/utils.dart';
-import 'package:ecommerce_clone/home/screen/home_screen.dart';
+import 'package:ecommerce_clone/feature/home/screen/home_screen.dart';
 import 'package:ecommerce_clone/model/user.dart';
 import 'package:ecommerce_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
