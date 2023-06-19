@@ -49,24 +49,24 @@ class _OrdersState extends State<Orders> {
                 ),
               ),
             ),
-            // Display your product list
-            Container(
-              height: 170,
-              padding: const EdgeInsets.only(
-                left: 10,
-                top: 20,
-                right: 0,
-              ),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return SingleProduct(imageUrl: list[index]);
-                },
-              ),
-            ),
           ],
-        )
+        ),
+        // Display your product list
+        Container(
+          height: 170,
+          padding: const EdgeInsets.only(
+            left: 10,
+            top: 20,
+            right: 0,
+          ),
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: list.length,
+            itemBuilder: (context, intex) {
+              return SingleProduct(imageUrl: list[intex]);
+            },
+          ),
+        ),
       ],
     );
   }
