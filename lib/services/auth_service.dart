@@ -86,8 +86,6 @@ class AuthService {
             );
           });
     } catch (e) {
-      print('💩');
-      print(e.toString());
       showSnakcBar(context, e.toString());
     }
   }
@@ -126,7 +124,6 @@ class AuthService {
         userProvider.setUser(userResponse.body);
       }
     } catch (e) {
-      print(e.toString());
       showSnakcBar(context, e.toString());
     }
   }
