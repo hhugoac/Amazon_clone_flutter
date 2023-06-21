@@ -21,5 +21,6 @@ Future<List<File>> pickImage() async {
   } catch (e) {
     debugPrint(e.toString());
   }
+  print(' 😸 ${images.toList().toString()}');
   return images;
 }
