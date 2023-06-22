@@ -6,6 +6,7 @@ import 'package:ecommerce_clone/common/widgets/custom_button.dart';
 import 'package:ecommerce_clone/common/widgets/custom_textfield.dart';
 import 'package:ecommerce_clone/constants/global_variables.dart';
 import 'package:ecommerce_clone/constants/utils.dart';
+import 'package:ecommerce_clone/feature/admin/services/admin_services.dart';
 import 'package:flutter/material.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -17,13 +18,15 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  TextEditingController productNameController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
+  final TextEditingController productNameController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
+  final AdminServices adminServices = AdminServices();
 
   String category = 'Mobiles';
   List<File> images = [];
+  final _addProductFormKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -39,6 +42,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
     setState(() {
       images = res;
     });
+  }
+
+  void sellProduct() {
+    if (_addProductFormKey.currentState!.validate() || images.isNotEmpty) {
+      adminServices.sell(
+        context: context,
+        name: productNameController.text,
+        description: descriptionController.text,
+        price: double.parse(priceController.text),
+        quantity: double.parse(quantityController.text),
+        category: category,
+        images: images,
+      );
+    }
   }
 
   List<String> productCategories = [
@@ -69,6 +86,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       ),
       body: SingleChildScrollView(
         child: Form(
+          key: _addProductFormKey,
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 10).copyWith(top: 20),
@@ -159,7 +177,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                CustomButton(text: 'Sell', onTap: () {}),
+                CustomButton(
+                    text: 'Sell',
+                    onTap: () {
+                      sellProduct();
+                    }),
               ],
             ),
           ),

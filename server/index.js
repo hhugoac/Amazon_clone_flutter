@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 //Import local files
 const authRoute = require('./routes/auth');
+const adminRouter = require('./routes/admin');
 
 
 //Init variables
@@ -15,6 +16,7 @@ const app = express();
 //Middleware
 app.use(express.json());
 app.use(authRoute);
+app.use(adminRouter);
 
 //Connections database
 const DB = "mongodb+srv://hhugoac:Guadalajara2023@cluster0.5wbuocy.mongodb.net/"
