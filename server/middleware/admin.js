@@ -1,5 +1,5 @@
-const jwtoken = require('jsonwebtoken');
-const user = require('../models/user.js');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user.js');
 
 const admin = async (req, res, next) => {
     try {
@@ -7,21 +7,21 @@ const admin = async (req, res, next) => {
         
         if (!token) return res.status(401).json({msg: 'No auth token, access denied.'});
 
-        const verified = jws.verify(token, 'passwordKey');
+        const verified = jwt.verify(token, 'passwordKey');
         if (!verified) return res
             .status(401)
             .json({msg: 'Token verification failed, authorization denied'});
         
         const user = await User.findById(verified.id);
-        if (user.type == 'user' || user.type == 'user') {
-            return res.status(401).json({ msg: "You are not an admin!"});
+        if (user.type == 'user' || user.type == 'seller') {
+            return res.status(401).json({ msg: 'You are not an admin!'});
         }
         
         req.user = verified.id;
         req.token = token;
         next();
     } catch(e) {
-        res.status(500).json({error: e.message + "jajaja"});
+        res.status(500).json({error: e.message + "j1j1j1"});
     }
 };
 

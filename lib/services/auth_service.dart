@@ -70,8 +70,6 @@ class AuthService {
         },
       );
 
-      print(res.body);
-      // ignore: use_build_context_synchronously
       httpErrorHandling(
           response: res,
           context: context,
@@ -124,7 +122,7 @@ class AuthService {
         userProvider.setUser(userResponse.body);
       }
     } catch (e) {
-      showSnakcBar(context, e.toString());
+      //showSnakcBar(context, e.toString());
     }
   }
 }

@@ -5,7 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 //Import local files
-const authRoute = require('./routes/auth');
+const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 
 
@@ -15,7 +15,7 @@ const app = express();
 
 //Middleware
 app.use(express.json());
-app.use(authRoute);
+app.use(authRouter);
 app.use(adminRouter);
 
 //Connections database

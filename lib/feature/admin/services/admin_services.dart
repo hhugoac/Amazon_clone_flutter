@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -22,10 +23,13 @@ class AdminServices {
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      final cloudinary = CloudinaryPublic('dtpyar7sr', '828299672596797');
+      final cloudinary = CloudinaryPublic(
+        'dtpyar7sr',
+        'k6vaoztl',
+      );
       List<String> imagesUrl = [];
 
-      for (int i = 0; i < imagesUrl.length; i++) {
+      for (int i = 0; i < images.length; i++) {
         CloudinaryResponse res = await cloudinary.uploadFile(
           CloudinaryFile.fromFile(images[i].path, folder: name),
         );
@@ -39,7 +43,8 @@ class AdminServices {
           images: imagesUrl,
           category: category,
           price: price);
-      print(product.toJson().toString());
+
+      print('🤥' + product.toJson());
       http.Response res = await http.post(
         Uri.parse('$uri/admin/add-product'),
         headers: {
@@ -48,7 +53,7 @@ class AdminServices {
         },
         body: product.toJson(),
       );
-      print('🥰' + res.body.toString());
+      print(res.body.toString());
       httpErrorHandling(
         response: res,
         context: context,
@@ -57,10 +62,46 @@ class AdminServices {
           Navigator.pop(context);
         },
       );
+    } on CloudinaryException catch (e) {
+      print(e.message);
+      print(e.request);
+      showSnakcBar(context, e.toString());
     } catch (e) {
-      print('🥵');
-      print(e);
       showSnakcBar(context, e.toString());
     }
+  }
+
+  // get all the products
+  Future<List<Product>> fetchAllProducts(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<Product> productList = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/admin/get-products'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      print('🤡' + res.body.toString());
+      httpErrorHandling(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            productList.add(
+              Product.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      showSnakcBar(context, e.toString());
+    }
+    return productList;
   }
 }
