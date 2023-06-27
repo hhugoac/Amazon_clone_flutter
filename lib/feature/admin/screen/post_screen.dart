@@ -49,7 +49,25 @@ class _PostScreenState extends State<PostScreen> {
                         child: SingleProduct(
                           imageUrl: productData.images[0],
                         ),
-                      )
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              productData.name,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.delete_outline,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   );
                 }),
