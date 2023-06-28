@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 //Import local files
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
-
+const productRouter = require("./routes/product");
 
 //Init variables
 const PORT = 3000;
@@ -17,6 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
+app.use(productRouter);
 
 //Connections database
 const DB = "mongodb+srv://hhugoac:Guadalajara2023@cluster0.5wbuocy.mongodb.net/"
