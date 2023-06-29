@@ -1,38 +1,55 @@
 import 'package:ecommerce_clone/constants/global_variables.dart';
+import 'package:ecommerce_clone/feature/admin/screen/loader.dart';
 import 'package:ecommerce_clone/feature/home/widgets/address_box.dart';
-import 'package:ecommerce_clone/feature/home/widgets/carousel_image.dart';
-import 'package:ecommerce_clone/feature/home/widgets/deal_of_day.dart';
-import 'package:ecommerce_clone/feature/home/widgets/top_categories.dart';
-import 'package:ecommerce_clone/feature/search/screen/search_screen.dart';
-import 'package:ecommerce_clone/providers/user_provider.dart';
+import 'package:ecommerce_clone/feature/product_detail/screen/product_detail_screen.dart';
+import 'package:ecommerce_clone/feature/search/services/search_service.dart';
+import 'package:ecommerce_clone/feature/search/widget/searched_product.dart';
+import 'package:ecommerce_clone/model/product.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const String routeName = '/home';
-  const HomeScreen({super.key});
+class SearchScreen extends StatefulWidget {
+  static const String routeName = '/search-screen';
+  final String searchQuery;
+
+  const SearchScreen({
+    super.key,
+    required this.searchQuery,
+  });
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SearchScreenState extends State<SearchScreen> {
+  List<Product>? products;
+  final SearchService searchServices = SearchService();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSearchedProduct();
+  }
+
+  fetchSearchedProduct() async {
+    products = await searchServices.fetchSearchedProduct(
+        context: context, searchQuery: widget.searchQuery);
+    setState(() {});
+  }
+
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
           flexibleSpace: Container(
-            decoration:
-                const BoxDecoration(gradient: GlobalVariables.appBarGradient),
+            decoration: const BoxDecoration(
+              gradient: GlobalVariables.appBarGradient,
+            ),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,13 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         filled: true,
                         fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.only(
-                          top: 10,
-                        ),
+                        contentPadding: const EdgeInsets.only(top: 10),
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(7),
                           ),
+                          borderSide: BorderSide.none,
                         ),
                         enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -79,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 1,
                           ),
                         ),
-                        hintText: 'Search Eccomerce.mx',
+                        hintText: 'Search Amazon.in',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,
@@ -93,27 +109,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.transparent,
                 height: 42,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(
-                  Icons.mic,
-                  color: Colors.black,
-                  size: 25,
-                ),
-              )
+                child: const Icon(Icons.mic, color: Colors.black, size: 25),
+              ),
             ],
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: const [
-            AddressBox(),
-            SizedBox(height: 10),
-            TopCategories(),
-            CarouselImage(),
-            DealOfDay(),
-          ],
-        ),
-      ),
+      body: products == null
+          ? const Loader()
+          : Column(
+              children: [
+                const AddressBox(),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: products!.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ProductDetailScreen.routeName,
+                            arguments: products![index],
+                          );
+                        },
+                        child: SearchedProduct(
+                          product: products![index],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
